@@ -6,6 +6,4 @@ class Game
   def initialize
     @frames = []
   end
-
-
 end
