@@ -17,5 +17,14 @@ describe Calculate_score do
 
       expect(subject.total_score(frames)).to eq 38
     end
+
+    it 'will return the total score of a game with one strike' do
+      simple_frame = instance_double('simple_frame', :rolls => [1, 2], :type => 'complete')
+      strike_frame = instance_double('strike_frame', :rolls => [10], :type => 'strike')
+      frames = [strike_frame]
+      9.times { frames << simple_frame }
+
+      expect(subject.total_score(frames)).to eq 40
+    end
   end
 end
