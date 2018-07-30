@@ -23,5 +23,11 @@ describe Frame do
       frame = Frame.new
       expect(frame.add_roll(10)).to eq [10]
     end
+
+    it 'should add a second roll to the rolls array' do
+      frame = Frame.new
+      frame.add_roll(9)
+      expect(frame.add_roll(1)).to eq [9, 1]
+    end
   end
 end

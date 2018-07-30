@@ -7,5 +7,9 @@ describe Game do
     it 'has an empty frame on initialize' do
       expect(subject.frames).to eq []
     end
-  end  
+    
+    it 'has an initial score of 0 on initialize' do
+      expect(subject.score).to eq 0
+    end
+  end
 end
