@@ -17,4 +17,11 @@ describe Frame do
       expect(subject.frame_type(rolls)).to eq 'normal'
     end
   end
+
+  describe '#add_roll' do
+    it 'should add a roll to the rolls array' do
+      frame = Frame.new
+      expect(frame.add_roll(10)).to eq [10]
+    end
+  end
 end

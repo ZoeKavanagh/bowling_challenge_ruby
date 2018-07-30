@@ -4,6 +4,10 @@ class Frame
     @rolls = []
   end
 
+  def add_roll(pins)
+    @rolls << pins
+  end
+
   def frame_type(rolls)
     if rolls[0] == 10
       frame_type = 'strike'
@@ -13,4 +17,6 @@ class Frame
       frame_type = 'normal'
     end
   end
+
+
 end
