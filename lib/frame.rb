@@ -4,8 +4,13 @@ class Frame
     @rolls = []
   end
 
-  def add_roll(pins)
+  def add_roll_one(pins)
     @rolls << pins
+  end
+
+  def add_roll_two(pins, frames)
+    @rolls << pins
+    @frames << @rolls
   end
 
   def frame_type(rolls)
@@ -17,6 +22,4 @@ class Frame
       frame_type = 'normal'
     end
   end
-
-
 end

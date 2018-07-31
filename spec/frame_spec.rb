@@ -18,16 +18,19 @@ describe Frame do
     end
   end
 
-  describe '#add_roll' do
+  describe '#add_roll_one' do
     it 'should add a roll to the rolls array' do
       frame = Frame.new
-      expect(frame.add_roll(10)).to eq [10]
+      expect(frame.add_roll_one(10)).to eq [10]
     end
+  end
 
+  describe '#add_roll_two' do
     it 'should add a second roll to the rolls array' do
       frame = Frame.new
-      frame.add_roll(9)
-      expect(frame.add_roll(1)).to eq [9, 1]
+      frames = []
+      frame.add_roll_one(9)
+      expect(frame.add_roll_two(1, frames)).to eq [[9, 1]]
     end
   end
 end
