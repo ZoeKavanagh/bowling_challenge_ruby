@@ -20,5 +20,6 @@ class Game
 
   def add_frame(rolls)
     @frames << rolls
+    @frame.clear_rolls
   end
 end
