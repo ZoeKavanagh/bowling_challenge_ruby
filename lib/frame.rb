@@ -1,16 +1,12 @@
 class Frame
+  attr_reader :rolls
 
   def initialize
     @rolls = []
   end
 
-  def add_roll_one(pins)
+  def add_roll(pins)
     @rolls << pins
-  end
-
-  def add_roll_two(pins, frames)
-    @rolls << pins
-    @frames << @rolls
   end
 
   def frame_type(rolls)
