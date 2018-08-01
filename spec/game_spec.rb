@@ -25,4 +25,14 @@ describe Game do
       expect(game.frames.length).to eq 2
     end
   end
+
+  describe '#total_score' do
+    it 'should return the total score of a complete game' do
+      spare_frame = instance_double('spare_frame', :rolls => [9, 1], :status => 'spare')
+      frames = []
+      10.times { frames << spare_frame }
+      game = Game.new(frames)
+      expect(game.total_score(frames)).to eq 181
+    end
+  end
 end
