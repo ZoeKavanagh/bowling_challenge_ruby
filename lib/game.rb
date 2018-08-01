@@ -4,14 +4,19 @@ require_relative 'frame'
 class Game
   attr_reader :frames
 
-  def initialize(frame_type = Frame.new)
+  def initialize(frame_type = Frame.new, score = Calculate_score.new)
     @new_frame = frame_type
     @frames = [@new_frame]
+    @score = score
   end
 
   def add_roll(pins)
     add_frame if last_frame_complete?
     add_roll_to_frame(pins)
+  end
+
+  def total_score(frames)
+    @score.score_calc(frames)
   end
 
   private
