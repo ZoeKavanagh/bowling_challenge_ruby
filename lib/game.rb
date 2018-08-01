@@ -2,24 +2,29 @@ require_relative 'calculate_score'
 require_relative 'frame'
 
 class Game
-  attr_reader :frames, :score, :frame
+  attr_reader :frames
 
-  def initialize(score=Calculate_score.new, frame=Frame.new)
-    @frame = frame
-    @frames = []
-    @score = score
+  def initialize(frame_type = Frame.new)
+    @new_frame = frame_type
+    @frames = [@new_frame]
   end
 
-  def add_roll_one(pins)
-    @frame.add_roll(pins)
+  def add_roll(pins)
+    add_frame if last_frame_complete?
+    add_roll_to_frame(pins)
   end
 
-  def add_roll_two(pins)
-    @frame.add_roll(pins)
+  private
+
+  def add_frame
+    @frames << @new_frame
   end
 
-  def add_frame(rolls)
-    @frames << rolls
-    @frame.clear_rolls
+  def last_frame_complete?
+    @frames.last.status != 'incomplete'
+  end
+
+  def add_roll_to_frame(pins)
+    @frames.last.rolls << pins
   end
 end
