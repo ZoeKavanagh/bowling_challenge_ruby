@@ -16,7 +16,7 @@ class Game
   end
 
   def total_score(frames)
-    @score.score_calc(frames)
+    @score.calculation(frames)
   end
 
   private
