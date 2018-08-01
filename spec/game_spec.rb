@@ -3,34 +3,26 @@
 require 'game'
 
 describe Game do
-  describe '#initialize' do
-    it 'has an empty frame on initialize' do
-      expect(subject.frames).to eq []
-    end
+  let(:frame) { instance_double('frame', :rolls => [], :status => 'incomplete') }
+  let(:subject) { Game.new(frame) }
 
-    xit 'has an initial score of 0 on initialize' do
-      expect(subject.score.total_score).to eq 0
-    end
-  end
-
-  describe '#add_roll_one' do
+  describe '#add_roll' do
     it 'adds the first roll to the frame' do
-      expect(subject.add_roll_one(5)).to eq [5]
+      subject.add_roll(5)
+      expect(subject.frames.last.rolls).to eq [5]
     end
-  end
 
-  describe '#add_roll_two' do
-    it 'adds the second roll to the frame' do
-      expect(subject.add_roll_two(3)).to eq [3]
+    it 'adds second roll to the same frame' do
+      subject.add_roll(5)
+      subject.add_roll(3)
+      expect(subject.frames.last.rolls).to eq [5, 3]
     end
-  end
 
-  describe '#add_frame' do
-    it 'should add the rolls to the frames array' do
-      subject.add_roll_one(4)
-      subject.add_roll_two(5)
-
-      expect(subject.add_frame(subject.frame.rolls)).to eq []
+    it 'adds next roll to a seperate frame' do
+      complete_frame = double('complete_frame', :rolls => [], :status => 'complete')
+      game = Game.new(complete_frame)
+      game.add_roll(5)
+      expect(game.frames.length).to eq 2
     end
   end
 end
