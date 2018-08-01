@@ -1,26 +1,32 @@
 class Frame
-  attr_reader :rolls, :frame_type
+  attr_reader :rolls
 
   def initialize
     @rolls = []
-    @frame_type = frame_type(rolls)
   end
 
   def add_roll(pins)
     @rolls << pins
   end
 
-  def frame_type(rolls)
-    if rolls[0] == 10
-      @frame_type = 'strike'
-    elsif rolls.sum == 10
-      @frame_type = 'spare'
-    else
-      @frame_type = 'normal'
-    end
+  def status
+    return 'strike' if strike?
+    return 'spare' if  spare?
+    return 'complete' if not_complete?
+    'incomplete'
   end
 
-  def clear_rolls
-    @rolls.clear
+  private
+
+  def strike?
+    @rolls[0] == 10
+  end
+
+  def spare?
+    @rolls.sum == 10
+  end
+
+  def not_complete?
+    @rolls.length > 1
   end
 end
