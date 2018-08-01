@@ -1,5 +1,4 @@
 class Calculate_score
-  attr_reader :frame, :frame_index, :rolls, :total_score
 
   def initialize
     @total_score = 0
