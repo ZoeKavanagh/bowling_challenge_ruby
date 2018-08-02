@@ -34,8 +34,11 @@ describe Game do
       game = Game.new(frames)
       expect(game.total_score(frames)).to eq 181
     end
+  end
 
-    it 'should return the total score of 300 for a perfect game' do
+
+  describe '#make_final_frame' do
+    it 'should change the frame_name of the last frame to final' do
       game = Game.new
       10.times { game.add_roll(10) }
       expect(game.make_final_frame).to eq 'final'
