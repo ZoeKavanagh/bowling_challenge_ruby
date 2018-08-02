@@ -9,15 +9,15 @@ class Game
     @frames = []
     9.times { @frames << Frame.new }
     @frames << FinalFrame.new
-    @score = score
+    @score_calculator = score
   end
 
   def add_roll(pins)
     current_frame.rolls << pins
   end
 
-  def total_score(frames)
-    @score.calculation(frames)
+  def total_score
+    @score_calculator.calculation(@frames)
   end
 
   private
@@ -35,6 +35,6 @@ class Game
   end
 
   def final_frame?
-    @frames.last 
+    @frames.last
   end
 end
