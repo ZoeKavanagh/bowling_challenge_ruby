@@ -13,7 +13,7 @@ class Frame
   def status
     return 'strike' if strike?
     return 'spare' if  spare?
-    return 'complete' if not_complete?
+    return 'complete' if complete?
     'incomplete'
   end
 
@@ -24,15 +24,15 @@ class Frame
   private
 
   def strike?
-    not_final_frame?
     @rolls[0] == 10
   end
 
   def spare?
-    @rolls.sum == 10
+    @rolls.length == 2 && rolls.sum == 10
   end
 
-  def not_complete?
+  def complete?
+    p @rolls.length
     @rolls.length > 1
   end
 

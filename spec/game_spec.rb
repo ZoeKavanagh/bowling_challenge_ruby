@@ -3,27 +3,48 @@
 require 'game'
 
 describe Game do
-  let(:frame) { instance_double('frame', :rolls => [], :status => 'incomplete') }
+  let(:frame) { instance_double('frame', :rolls => [], :status => 'incomplete', :frame_name => 'normal')}
   let(:subject) { Game.new(frame) }
 
   describe '#add_roll' do
     it 'adds the first roll to the frame' do
-      subject.add_roll(5)
-      expect(subject.frames.last.rolls).to eq [5]
+      expect(subject.add_roll(5)).to eq [5]
     end
 
     it 'adds second roll to the same frame' do
       subject.add_roll(5)
-      subject.add_roll(3)
-      expect(subject.frames.last.rolls).to eq [5, 3]
+      expect(subject.add_roll(3)).to eq [5, 3]
     end
 
     it 'adds next roll to a seperate frame' do
-      complete_frame = double('complete_frame', :rolls => [], :status => 'complete')
+      complete_frame = double('complete_frame', :rolls => [1, 2], :status => 'complete', :frame_name => 'normal')
       game = Game.new(complete_frame)
       game.add_roll(5)
+      game.add_roll(2)
+      game.add_roll(3)
       expect(game.frames.length).to eq 2
     end
+
+    it 'will add next roll to a seperate frame following a strike' do
+      game = Game.new
+      game.add_roll(10)
+      game.add_roll(2)
+      expect(game.new_frame.rolls).to eq [2]
+    end
+
+    it 'will add next roll to a seperate frame following a spare' do
+      game = Game.new
+      game.add_roll(5)
+      game.add_roll(5)
+      game.add_roll(2)
+      expect(game.new_frame.rolls).to eq [2]
+    end
+
+    # it 'should allow three rolls on final frame if first roll is a strike' do
+    #   game = Game.new
+    #   9.times { game.add_roll(10) }
+    #   expect(game.add_roll(10)).to eq [10, 10]
+    # end
   end
 
   describe '#total_score' do
@@ -36,12 +57,10 @@ describe Game do
     end
   end
 
-
-  describe '#make_final_frame' do
-    it 'should change the frame_name of the last frame to final' do
-      game = Game.new
-      10.times { game.add_roll(10) }
-      expect(game.make_final_frame).to eq 'final'
-    end
-  end
+  # describe '#make_final_frame' do
+  #   it 'should change the frame_name of the last frame to final' do
+  #     game = Game.new
+  #     10.times { game.add_roll(10) }
+  #     expect(game.make_final_frame).to eq 'final'
+  #   end
 end
