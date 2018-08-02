@@ -1,4 +1,4 @@
-class Calculate_score
+class CalculateScore
 
   def initialize
     @total_score = 0
@@ -13,8 +13,8 @@ class Calculate_score
 private
 
   def calculate_frame_score(frame, frame_index)
-    @total_score += frame.rolls.sum
-    calculate_special_scores(frame, frame_index)
+      @total_score += frame.rolls.sum
+      calculate_special_scores(frame, frame_index)
   end
 
   def calculate_special_scores(frame, frame_index)
@@ -34,7 +34,7 @@ private
     if frame.status == 'strike'
       if @frames[frame_index + 1].rolls[1].nil? == false
         @total_score += @frames[frame_index + 1].rolls[1]
-      elsif @frames[frame_index + 2].nil? == false
+      elsif @frames[frame_index + 2].rolls[0].nil? == false
         @total_score += @frames[frame_index + 2].rolls[0]
       end
     end

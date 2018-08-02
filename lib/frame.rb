@@ -3,7 +3,6 @@ class Frame
 
   def initialize
     @rolls = []
-    @frame_name = 'normal'
   end
 
   def add_roll(pins)
@@ -17,11 +16,9 @@ class Frame
     'incomplete'
   end
 
-  def make_final_frame
-    @frame_name = 'final'
+  def incomplete?
+    !complete?
   end
-
-  private
 
   def strike?
     @rolls[0] == 10
@@ -32,11 +29,6 @@ class Frame
   end
 
   def complete?
-    p @rolls.length
-    @rolls.length > 1
-  end
-
-  def not_final_frame?
-    @frame_name == 'normal'
+    @rolls.length > 1 || strike? || spare?
   end
 end

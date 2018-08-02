@@ -3,8 +3,7 @@
 require 'game'
 
 describe Game do
-  let(:frame) { instance_double('frame', :rolls => [], :status => 'incomplete', :frame_name => 'normal')}
-  let(:subject) { Game.new(frame) }
+  let(:subject) { described_class.new }
 
   describe '#add_roll' do
     it 'adds the first roll to the frame' do
@@ -17,50 +16,36 @@ describe Game do
     end
 
     it 'adds next roll to a seperate frame' do
-      complete_frame = double('complete_frame', :rolls => [1, 2], :status => 'complete', :frame_name => 'normal')
-      game = Game.new(complete_frame)
-      game.add_roll(5)
-      game.add_roll(2)
-      game.add_roll(3)
-      expect(game.frames.length).to eq 2
+      subject.add_roll(5)
+      subject.add_roll(2)
+      subject.add_roll(3)
+      expect(subject.frames[1].rolls).to eq [3]
     end
 
     it 'will add next roll to a seperate frame following a strike' do
-      game = Game.new
-      game.add_roll(10)
-      game.add_roll(2)
-      expect(game.new_frame.rolls).to eq [2]
+      subject.add_roll(10)
+      subject.add_roll(2)
+      expect(subject.frames[1].rolls).to eq [2]
     end
 
     it 'will add next roll to a seperate frame following a spare' do
-      game = Game.new
-      game.add_roll(5)
-      game.add_roll(5)
-      game.add_roll(2)
-      expect(game.new_frame.rolls).to eq [2]
+      subject.add_roll(5)
+      subject.add_roll(5)
+      subject.add_roll(2)
+      expect(subject.frames[1].rolls).to eq [2]
     end
 
-    # it 'should allow three rolls on final frame if first roll is a strike' do
-    #   game = Game.new
-    #   9.times { game.add_roll(10) }
-    #   expect(game.add_roll(10)).to eq [10, 10]
-    # end
+    it 'should allow three rolls on final frame if first roll is a strike' do
+      10.times { subject.add_roll(10) }
+      subject.add_roll(2)
+      expect(subject.frames.last.rolls).to eq [10, 2]
+    end
   end
 
   describe '#total_score' do
     it 'should return the total score of a complete game' do
-      spare_frame = instance_double('spare_frame', :rolls => [9, 1], :status => 'spare')
-      frames = []
-      10.times { frames << spare_frame }
-      game = Game.new(frames)
-      expect(game.total_score(frames)).to eq 181
+      21.times { subject.add_roll(5)}
+      expect(subject.total_score(subject.frames)).to eq 150
     end
   end
-
-  # describe '#make_final_frame' do
-  #   it 'should change the frame_name of the last frame to final' do
-  #     game = Game.new
-  #     10.times { game.add_roll(10) }
-  #     expect(game.make_final_frame).to eq 'final'
-  #   end
 end

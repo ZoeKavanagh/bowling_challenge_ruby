@@ -1,6 +1,6 @@
 require 'calculate_score'
 
-describe Calculate_score do
+describe CalculateScore do
   describe '#score_calc' do
     it 'will return the total score of a game with no spares or strikes' do
       simple_frame = instance_double('simple_frame', :rolls => [1, 2], :status => 'complete')
