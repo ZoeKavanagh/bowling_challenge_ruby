@@ -1,8 +1,9 @@
 class Frame
-  attr_reader :rolls
+  attr_reader :rolls, :frame_name
 
   def initialize
     @rolls = []
+    @frame_name = 'normal'
   end
 
   def add_roll(pins)
@@ -16,9 +17,14 @@ class Frame
     'incomplete'
   end
 
+  def make_final_frame
+    @frame_name = 'final'
+  end
+
   private
 
   def strike?
+    not_final_frame?
     @rolls[0] == 10
   end
 
@@ -28,5 +34,9 @@ class Frame
 
   def not_complete?
     @rolls.length > 1
+  end
+
+  def not_final_frame?
+    @frame_name == 'normal'
   end
 end

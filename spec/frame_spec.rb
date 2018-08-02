@@ -32,4 +32,11 @@ describe Frame do
       expect(frame.add_roll(1)).to eq [9, 1]
     end
   end
+
+  describe '#make_final_frame' do
+    it 'should change the frame_type to to final' do
+      frame = Frame.new
+      expect(subject.make_final_frame).to eq 'final'
+    end
+  end
 end
