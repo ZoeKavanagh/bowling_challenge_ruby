@@ -1,10 +1,7 @@
 # frozen_string_literal: true
-
 require 'game'
 
 describe Game do
-  let(:subject) { described_class.new }
-
   describe '#add_roll' do
     it 'adds the first roll to the frame' do
       expect(subject.add_roll(5)).to eq [5]
@@ -16,9 +13,7 @@ describe Game do
     end
 
     it 'adds next roll to a seperate frame' do
-      subject.add_roll(5)
-      subject.add_roll(2)
-      subject.add_roll(3)
+      [5, 2, 3].each { |pins| subject.add_roll(pins) }
       expect(subject.frames[1].rolls).to eq [3]
     end
 
@@ -29,9 +24,7 @@ describe Game do
     end
 
     it 'will add next roll to a seperate frame following a spare' do
-      subject.add_roll(5)
-      subject.add_roll(5)
-      subject.add_roll(2)
+      [5, 5, 2].each { |pins| subject.add_roll(pins) }
       expect(subject.frames[1].rolls).to eq [2]
     end
 
@@ -40,12 +33,17 @@ describe Game do
       subject.add_roll(2)
       expect(subject.frames.last.rolls).to eq [10, 2]
     end
+
+    it 'should raise GameOverError if game is complete' do
+      allow(subject).to receive(:complete?).and_return(true)
+      expect { subject.add_roll(2) }.to raise_error(Game::GameOverError)
+    end
   end
 
   describe '#total_score' do
     it 'should return the total score of a complete game' do
-      21.times { subject.add_roll(5)}
-      expect(subject.total_score(subject.frames)).to eq 150
+      21.times { subject.add_roll(5) }
+      expect(subject.total_score).to eq 150
     end
   end
 end

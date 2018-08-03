@@ -1,5 +1,9 @@
 class Frame
-  attr_reader :rolls, :frame_name
+  attr_reader :rolls
+
+  NUMBER_OF_ROLLS = 2
+  STRIKE = 10
+  SPARE = 10
 
   def initialize
     @rolls = []
@@ -9,26 +13,23 @@ class Frame
     @rolls << pins
   end
 
-  def status
-    return 'strike' if strike?
-    return 'spare' if  spare?
-    return 'complete' if complete?
-    'incomplete'
-  end
-
   def incomplete?
     !complete?
   end
 
   def strike?
-    @rolls[0] == 10
+    @rolls[0] == STRIKE
   end
 
   def spare?
-    @rolls.length == 2 && rolls.sum == 10
+    @rolls.length == NUMBER_OF_ROLLS && rolls.sum == SPARE
   end
 
   def complete?
-    @rolls.length > 1 || strike? || spare?
+    @rolls.length == NUMBER_OF_ROLLS || strike? || spare?
+  end
+
+  def final?
+    false
   end
 end

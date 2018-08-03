@@ -10,31 +10,31 @@ class CalculateScore
     @total_score
   end
 
-private
+  private
 
   def calculate_frame_score(frame, frame_index)
-      @total_score += frame.rolls.sum
-      calculate_special_scores(frame, frame_index)
+    @total_score += frame.rolls.sum
+    calculate_special_scores(frame, frame_index)
   end
 
   def calculate_special_scores(frame, frame_index)
-    if @frames[frame_index + 1].nil? == false
+    if @frames[frame_index + 1]
       spare_score(frame, frame_index)
       strike_score(frame, frame_index)
     end
   end
 
   def spare_score(frame, frame_index)
-    if frame.status == 'spare' || frame.status == 'strike'
+    if frame.spare? || frame.strike?
       @total_score += @frames[frame_index + 1].rolls[0]
     end
   end
 
   def strike_score(frame, frame_index)
-    if frame.status == 'strike'
-      if @frames[frame_index + 1].rolls[1].nil? == false
+    if frame.strike?
+      if @frames[frame_index + 1].rolls[1]
         @total_score += @frames[frame_index + 1].rolls[1]
-      elsif @frames[frame_index + 2].rolls[0].nil? == false
+      elsif @frames[frame_index + 2].rolls[0]
         @total_score += @frames[frame_index + 2].rolls[0]
       end
     end
